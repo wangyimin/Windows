@@ -1,0 +1,28 @@
+C:\>netdom computername <old> /add:<new>.<domainname>
+C:\>netdom computername <old> /enumerate
+C:\>netdom computername <old> /makeprimary:<new>.<domainname>
+restart
+C:\>netdom computername <new> /enumerate
+C:\>netdom computername <new> /remove:<old>.<domainname>
+dcdiag
+dcdiag /test:dns /dnsall /e /v
+
+dns server's dns name should be 127.0.0.1
+
+DC seize(not transfer) should be,
+1. use dsa.msc to delete old one
+2. use dssite.msc to delete meta of old one
+3. change hostname by above commands
+4. change ip
+5. use dnsmgmt.msc to update 'dns forward reference zone'
+
+repadmin/dcdiag (ex: repadmin /showrepl)
+
+FSMO...such as DC Transfer
+- PDCEmulator or 0
+- RIDMaster or 1
+- InfrastructureMaster or 2
+- SchemaMaster or 3
+- DomainNamingMaster or 4
+
+Move-ADDirectoryServerOperationMasterRole -Identity <dest> 0,1,2,3,4

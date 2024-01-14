@@ -1,0 +1,18 @@
+slmgr -ipk xxxx-xxxx-...
+slmgr -skms xx.xx.xx.xx
+slmgr -ato
+slmgr -dlv
+
+cd /d %ProgramFiles(x86)%\Microsoft Office\Office16
+cd /d %ProgramFiles%\Microsoft Office\Office16
+ex:
+cd "C:\Program Files (x86)\Microsoft Office\Office16"
+
+for /f %x in ('dir /b ..\root\Licenses16\ProPlus2021VL_KMS*.xrm-ms') do cscript ospp.vbs /inslic:"..\root\Licenses16\%x"cscript ospp.vbs /inslic:"..\root\Licenses16\ProPlus2021VL_KMS_Client_AE-ppd.xrm-ms"
+cscript ospp.vbs /inslic:"..\root\Licenses16\ProPlus2021VL_KMS_Client_AE-ul-oob.xrm-ms"
+
+cscript ospp.vbs /sethst:xx.xx.xx.xx
+cscript ospp.vbs /act
+
+https://msguides.com/windows-11
+https://msguides.com/office-2021

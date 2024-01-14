@@ -1,0 +1,12 @@
+control
+control admintools
+control system
+control /name microsoft.devicesandprinters
+eventvwr.msc
+mstsc
+services.msc
+appwiz.cpl
+wf.cpl
+ncpa.cpl
+diskmgmt.msc
+compmgmt. msc

@@ -1,0 +1,31 @@
+w32tm /config /syncfromflgs:manual /manualpeerlist:xx.xx.xx.xx /update
+w32tm /resync
+w32tm /query /status
+
+
+Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\w32time\TimeProviders\NtpServer"
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\w32time\TimeProviders\NtpServer" -Name "Enabled" -Value 1
+
+# AnnounceFlags を 5 に変更
+# 数値の意味
+# 0x00 : Not a time server
+# 0x01 : Always time server
+# 0x02 : Automatic time server
+# 0x04 : Always reliable time server
+# 0x08 : Automatic reliable time server
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\services\W32Time\Config" -Name "AnnounceFlags" -Value 5
+
+Restart-Service w32Time
+ 
+# Windows Firewall NTP ポート許可
+New-NetFirewallRule `
+-Name "NTP Server Port" `
+-DisplayName "NTP Server Port" `
+-Description 'Allow NTP Server Port' `
+-Profile Any `
+-Direction Inbound `
+-Action Allow `
+-Protocol UDP `
+-Program Any `
+-LocalAddress Any `
+-LocalPort 123 
