@@ -10,3 +10,11 @@ wf.cpl
 ncpa.cpl
 diskmgmt.msc
 compmgmt. msc
+sysdm.cpl -> System property
+powercfg.cpl
+taskschd.msc
+taskmgr
+whoami /all
+net user <user> /domain
+net localgroup administrators
+net group "domain admins" /domain
