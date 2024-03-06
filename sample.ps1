@@ -35,3 +35,12 @@ Function ListFirewallRuleInbound($names){
 $f = $function:ListFirewallRuleInbound
 & $f @("code.exe") | Format-Table
 #ListFirewallRuleInbound(@("code.exe"))
+
+$prop = @{
+  "Name" = $_.DisplayName;
+}
+$psobj = New-Object -TypeName psobject -Property $prop
+$lst += $psobj
+
+$lst | Sort-Object Name -Unique | Format-Table -Property Name
+$lst | Select Name -Unique | Sort-Object Name | Export-Csv -Path ... -Encoding Default
