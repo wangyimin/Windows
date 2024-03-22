@@ -1,0 +1,21 @@
+net share
+dcdiag /v
+repadmin /showrepl
+nltest /sc_verify:<domain>
+nltest /dsgetdc:<domain>
+ntdsutil
+Test-ComputerSecureChannel -Server <DC>
+Test-ComputerSecureChannel -credential <domain\domain admins> -repair
+Move-ADDirectoryServerOperationMasterRole -Identity <DC> -OperationMasterRole 1,2,3,4,5
+Get-ADDomain | Select PDCEmulator,RIDMaster,InfrastructureMaster | fl
+dsa.msc
+dssite.msc
+dnsmgmt.msc
+netdom computername <new DC> /remove:<old DC>
+netdom computername <new DC> /add:<old DC>
+netdom computername <new DC> /makeprimary:<old DC>
+restart
+netdom computername <old DC> /remove:<new DC>
+w32tm /query /status
+w32tm /config /manualpeerlist:"<ntp>" /syncfromflag:MANUAL /update
+

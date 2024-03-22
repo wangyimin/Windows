@@ -20,11 +20,13 @@ Function ListFirewallRuleInbound($names){
     }
     
     $fw = @()
-    Get-Netfirewallrule -Enabled True -Direction "Inbound" | where DisplayName -in $names | foreach{
+    Get-Netfirewallrule -Enabled True -Direction "Inbound" | ? DisplayName -in $names | foreach {
         $el = [PSCustomObject]@{
-            "app" = $_ | NetFirewallApplicationFilter | select "Program";
-            "addr" = $_ | Get-NetfirewallAddressFilter | select "LocalAddress", "RemoteAddress";
-            "port" = $_ | Get-NetFirewallPortFilter | select "LocalPort", "RemotePort";
+            "app" = $_ | NetFirewallApplicationFilter | select "Program" | % {$_.Program};
+            "localaddr" = '@(' + (($_ | Get-NetfirewallAddressFilter | select "LocalAddress" | % {'"{0}"' -f $_.LocalAddress}) -join ',') + ')';
+            "remoteaddr" = $_ | Get-NetfirewallAddressFilter | select "RemoteAddress"| % {$_.RemoteAddress};
+            "localport" = $_ | Get-NetFirewallPortFilter | select "LocalPort" | % {$_.LocalPort};
+            "remoteport" = $_ | Get-NetFirewallPortFilter | select "RemotePort"| % {$_.RemotePort};
         };
         $fw += $el;
     }
@@ -33,7 +35,7 @@ Function ListFirewallRuleInbound($names){
 }
 
 $f = $function:ListFirewallRuleInbound
-& $f @("code.exe") | Format-Table
+& $f @("Apache HTTP Server") | ft
 #ListFirewallRuleInbound(@("code.exe"))
 
 $prop = @{
@@ -44,3 +46,9 @@ $lst += $psobj
 
 $lst | Sort-Object Name -Unique | Format-Table -Property Name
 $lst | Select Name -Unique | Sort-Object Name | Export-Csv -Path ... -Encoding Default
+
+
+$acl = Get-Acl <folder or file>
+$ar = New-Object System.Security.AccessControl.FileSystemAccessRule("<domain>\<user>","FullControl","ContainerInherit,ObjectInherit",""None","Allow")
+$acl.AddAccessRule($ar) 
+Set-Acl <folder or file> $acl
