@@ -1,12 +1,22 @@
+◆Basic Commands
 net share
-dcdiag /v
+dcdiag /v | select-string -pattern '\.+.*(失敗|成功)'
+dcdiga /test:dns
 repadmin /showrepl
+repadmin /replsummary
 nltest /sc_verify:<domain>
 nltest /dsgetdc:<domain>
+nltest /dclist:<domain>
 ntdsutil
+  roles
+  connections
+    connect to server <servername>
+  quit
+  transfer <role>/size <rols>
+
 Test-ComputerSecureChannel -Server <DC>
 Test-ComputerSecureChannel -credential <domain\domain admins> -repair
-Move-ADDirectoryServerOperationMasterRole -Identity <DC> -OperationMasterRole 1,2,3,4,5
+Move-ADDirectoryServerOperationMasterRole -Identity <DC> -OperationMasterRole 0,1,2,3,4
 Get-ADDomain | Select PDCEmulator,RIDMaster,InfrastructureMaster | fl
 dsa.msc
 dssite.msc
@@ -17,5 +27,28 @@ netdom computername <new DC> /makeprimary:<old DC>
 restart
 netdom computername <old DC> /remove:<new DC>
 w32tm /query /status
-w32tm /config /manualpeerlist:"<ntp>" /syncfromflag:MANUAL /update
+w32tm /config /manualpeerlist:"<ntp1> <ntp2>" /syncfromflag:MANUAL /update
 
+resolve-dnsname <domain name>
+
+◆Core
+SConfig
+
+Install-windowsfeature -name AD-Domain-Services  <-- first DC
+install-addsforest -domainname <domain name>
+
+Get-NetAdapter -ifIndex 3 | Set-DnsClientServerAddress -ServerAddress "<dc ipdddress>"  <-- second DC
+Install-windowsfeature -name AD-Domain-Services
+Install-ADDSDomainController -domainname <domain name> -Credential (Get-Credential "<domain>\administrator")
+
+Get-ADDomain | select-object *
+
+ユーザ用の OU [exusers] およびグループ用の OU [exgroups] を新規作成します。
+New-ADOrganizationalUnit -Name exusers -Path "DC=example,DC=com"
+New-ADOrganizationalUnit -Name exgroups -Path "DC=example,DC=com"
+
+→DNSレコード
+Get-DnSserverZone | ?{$_.IsAutoCreated -eq $False} | %{Get-DnsServerResourceRecord -ZoneName $_.ZoneName}
+
+→RemoteDsktop利用可
+cscript C:\Windows\System32\Scregedit.wsf /ar 0
