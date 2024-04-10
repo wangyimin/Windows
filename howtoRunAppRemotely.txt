@@ -1,0 +1,16 @@
+◆HOST
+コンピューター\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList\Applications\notepad
+Name/REG_SZ/メモ帳
+Path/REG_SZ/C:\Windows\System32\notepad.exe
+RequiredCommandLine/REG_SZ/
+SecurityDescriptor/REG_SZ/
+CommandLineSetting/REG_DWORD/0
+ShowInTSWA/REG_DWORD/1
+
+コンピューター\HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services
+fAllowUnlistedRemotePrograms/REG_DWORD/1
+
+◆CLIENT（11.rdp）
+full address:s:172.20.1.11
+remoteapplicationmode:i:1
+remoteapplicationprogram:s:||notepad

@@ -52,3 +52,29 @@ Get-DnSserverZone | ?{$_.IsAutoCreated -eq $False} | %{Get-DnsServerResourceReco
 
 →RemoteDsktop利用可
 cscript C:\Windows\System32\Scregedit.wsf /ar 0
+
+◆How to manage core by remote
+To use an MMC snap-in to manage a Server Core server that is a domain member:
+
+1. Start an MMC snap-in, such as Computer Management.
+2. Right-click the snap-in, and then click Connect to another computer.
+3. Type the computer name of the Server Core server, and then click OK. You can now use the MMC snap-in to manage the Server Core server as you would any other PC or server.
+
+
+To use an MMC snap-in to manage a Server Core server that isn't a domain member:
+
+1. Establish alternate credentials to use to connect to the Server Core computer by typing the following command at a command prompt on the remote computer:
+  cmdkey /add:<ServerName> /user:<UserName> /pass:<password>
+  
+2. When prompted, type the password for the user name you specified. If the firewall on the Server Core server isn't already configured to allow MMC snap-ins to connect, follow the steps below to configure Windows Firewall to allow MMC snap-in. 
+  Enable-NetFirewallRule -DisplayGroup "Windows Remote Management"
+
+
+Managing with Remote Desktop Services
+  cscript C:\Windows\System32\Scregedit.wsf /ar 0
+  
+
+Using Windows Admin Center
+Using Remote Server Administration Tools running on Windows 10
+  Get-WindowsCapability -Name RSAT* -Online | Select-Object -Property DisplayName, State
+  appwiz.cpl -> Windows機能有効化 / System -> Optional features -> Add feature -> search [remote]

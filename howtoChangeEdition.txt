@@ -1,0 +1,27 @@
+dism /online /Get-TargetEditions
+→
+アップグレード可能なエディション:
+
+ターゲット エディション : CoreSingleLanguage
+ターゲット エディション : Professional
+ターゲット エディション : ProfessionalEducation
+ターゲット エディション : ProfessionalWorkstation
+ターゲット エディション : Education
+ターゲット エディション : ProfessionalCountrySpecific
+ターゲット エディション : ProfessionalSingleLanguage
+ターゲット エディション : ServerRdsh
+ターゲット エディション : IoTEnterprise
+ターゲット エディション : Enterprise
+
+Dism /online /Set-Edition:<TargetEdition> /ProductKey:<ProductKey> /AcceptEula
+
+Restart
+
+slmgr.vbs /ipk <ProductKey>
+
+slmgr /skms kms8.msguides.com
+
+slmgr /ato
+
+slmgr /rearm
+https://winaero.com/windows-11-generic-keys-for-all-editions/

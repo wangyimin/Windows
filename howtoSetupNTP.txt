@@ -1,4 +1,4 @@
-w32tm /config /syncfromflgs:manual /manualpeerlist:xx.xx.xx.xx /update
+w32tm /config /syncfromflgs:manual /manualpeerlist:"xx.xx.xx.xx,0x8 yy.yy.yy.yy,0x2" /update
 w32tm /resync
 w32tm /query /status
 
