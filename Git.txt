@@ -1,0 +1,34 @@
+ÅüClient
+git config --local core.quotepath false
+git config --global core.autocrlf true
+git config --global gui.encoding utf-8
+
+[safe]
+  directory=*
+
+ÅüServer
+Get-WindowsCapability -Online -Name <openssl server>
+
+New-NetFirewallRule -DisplayName <name> -Direction Inbound -Action Allow -Protocol 'TCP' -LocalPort '22'
+
+C:\ProgramData\ssh\sshd_config
+SysLogFacility LOCAL0
+LogLevel DEBUG3
+
+StrictModes yes
+PubkeyAuthentication yes
+PasswordAuthentication no
+
+Subsystem sftp sftp-server.exe -d "<root directory>"
+Match User <domain>\<user>
+  ChrootDirectory "<root directory>"
+  
+
+compmgmt.msc / dsa.msc
+
+icalcs.exe "authorized_keys" /inheritance:r /grant "<domain>\<user>:F" /grant "SYSTEM:F"
+
+Restart-Service -Name sshd
+
+ssh <user>@<server>
+scp <local file> <user>@<server>:.

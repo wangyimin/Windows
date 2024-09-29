@@ -1,4 +1,4 @@
-﻿
+﻿◆how to show all services by powershell
 $triggers = Get-ChildItem "HKLM:\SYSTEM\CurrentControlSet\Services" |
     ?{ $_.GetSubkeyNames().Contains("TriggerInfo") } |
     %{ $_.Name.Split("\")[-1] }
@@ -14,6 +14,7 @@ $serviceData = Get-CimInstance -ClassName Win32_Service | select @(
 )
 $serviceData
 
+◆how to get firewall information by powershell
 Function ListFirewallRuleInbound($names){
     if (!($names -is [Array])){
         throw "Invalad parameter"
@@ -44,11 +45,42 @@ $prop = @{
 $psobj = New-Object -TypeName psobject -Property $prop
 $lst += $psobj
 
+◆show information in specific format(FT, FL) and how to export in CSV format
 $lst | Sort-Object Name -Unique | Format-Table -Property Name
 $lst | Select Name -Unique | Sort-Object Name | Export-Csv -Path ... -Encoding Default
 
-
+◆how to set access privilege by powershell
 $acl = Get-Acl <folder or file>
 $ar = New-Object System.Security.AccessControl.FileSystemAccessRule("<domain>\<user>","FullControl","ContainerInherit,ObjectInherit",""None","Allow")
 $acl.AddAccessRule($ar) 
 Set-Acl <folder or file> $acl
+
+Gwt-WindowsFeature | Where Installed
+
+◆shorthand of powershell
+PS C:\Users\wang_> get-help ?                                                                                                                                                                                                                   Name                              Category  Module                    Synopsis
+----                              --------  ------                    --------
+%                                 Alias                               ForEach-Object
+?                                 Alias                               Where-Object
+h                                 Alias                               Get-History
+r                                 Alias                               Invoke-History
+
+◆how to create winform in powershell
+Add-Type -Assembly System.Windows.Forms
+Add-Type -Assembly System.Drawing
+
+class Window:System.Windows.Forms.Form
+{
+  Window ()
+  {
+    $btn = New-Object System.Windows.Forms.Button
+    $btn.Text = "Click me!"
+    $btn.AutoSize = $true
+    $that = $this
+    $btn.add_Click({param($sndr, $eArgs)$that.BackColor = [System.Drawing.Color]::Red}.GetNewClosure())
+    $this.Controls.Add($btn)
+  }
+}
+$foo = New-Object window
+$foo.ShowDialog()
+[System.Windows.Forms.MessageBox]::Show("Hello world", "Title")

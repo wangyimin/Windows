@@ -1,0 +1,26 @@
+https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/for
+https://www.tohoho-web.com/ex/bat.html
+
+for {%%|%}<variable> in (<set>) do <command> [<commandlineoptions>]
+for /f eol=; tokens=2,3* delims=, %i in (myfile.txt) do @echo %i %j %k
+
+https://qiita.com/Tabito/items/c18cdf33cf82a617bf0e
+SETLOCAL
+SET BASE_DIR=%~dp0
+
+ENDLOCAL
+EXIT /b 0
+
+SET TARGET_FILEPATH=%~1
+SET TARGET_DIR=%~dp1
+SET TARGET_FILE=%~nx1
+SET TARGET_FILE_NOEXT=%~n1
+
+TIMEOUT 1 > nul 2>&1
+
+SET DATE_STRING=%date:~-10,4%%date:~-5,2%%date:~-2,2%
+ECHO %DATE_STRING%
+
+https://qiita.com/yz2cm/items/4983be006116c369d08b
+setlocal enabledelayedexpansion
+set "str=!%1!"

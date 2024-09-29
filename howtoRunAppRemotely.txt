@@ -14,3 +14,17 @@ fAllowUnlistedRemotePrograms/REG_DWORD/1
 full address:s:172.20.1.11
 remoteapplicationmode:i:1
 remoteapplicationprogram:s:||notepad
+
+◆Citrix
+https://www.ashisuto.co.jp/citrix_blog/article/202003-RemoteApp.html
+Citrix Studio→ポリシーノード上で右クリック→「ポリシーの作成」
+「設定項目の選択」→検索条件に「非公開」→「クライアント接続での非公開アプリケーションの起動」の「選択」をクリック
+「設定の変更」画面にて、「有効」を選択
+検索ボックスに「デスクトップの起動」→「デスクトップの起動」→「選択」をクリック
+「設定の変更」画面にて、「許可」を選択
+検索ボックスを空白に→「選択項目のみを表示する」をチェック→設定済みのポリシーを確認→「次へ」
+「ユーザーまたはグループ、ユーザー用の設定項目に適用」→割り当て→ユーザアカウントを追加→「OK」
+「次へ」→「完了」
+作成したポリシーの優先度を上げる
+作成したポリシーを有効にする
+「コンピュータの管理」→「ローカルユーザとグループ」→「グループ」から「Direct Access Users」に追加

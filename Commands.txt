@@ -14,7 +14,24 @@ sysdm.cpl -> System property
 powercfg.cpl
 taskschd.msc
 taskmgr
+control /name microsoft.networkandsharingcenter
 whoami /all
 net user <user> /domain
 net localgroup administrators
 net group "domain admins" /domain
+
+Åülicensing
+slmgr -skms <ip>
+slmgr -ato
+slmgr -dlv
+
+slmgr /ipk <product id>
+slmgr -ato
+slmgr /xpr
+slmgr /upk
+
+cd "C:\Program Files\Microsoft Office\Offce16"
+cscript ospp.vbs /sethst:<ip>
+cscript ospp.vbs /act
+cscript ospp.vbs /dstatus
+
